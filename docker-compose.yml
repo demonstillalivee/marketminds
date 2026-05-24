@@ -1,0 +1,18 @@
+# Local development orchestration.
+# Sprint 0: single service that proves the container builds and runs.
+# Sprint 8 splits this into `api` + `ui` services.
+
+services:
+  marketminds:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: marketminds:dev
+    container_name: marketminds-dev
+    ports:
+      - "8000:8000"  # FastAPI (filled in Sprint 8)
+      - "8501:8501"  # Streamlit (filled in Sprint 10)
+    volumes:
+      - ./src:/app/src:ro
+    environment:
+      - PYTHONUNBUFFERED=1

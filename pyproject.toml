@@ -1,0 +1,91 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "marketminds"
+version = "0.0.1"
+description = "Modern Python portfolio analytics — FastAPI + Streamlit, deployed live."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Vishal Jain", email = "vishaljain21fif@gmail.com" }]
+keywords = ["portfolio", "finance", "markowitz", "streamlit", "fastapi"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+# Runtime dependencies added per-sprint as features land.
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.5.0",
+    "mypy>=1.10",
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "pytest-mock>=3.14",
+]
+
+[project.urls]
+Homepage = "https://github.com/demonstillalivee/marketminds"
+Repository = "https://github.com/demonstillalivee/marketminds"
+Issues = "https://github.com/demonstillalivee/marketminds/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# ---------- ruff ----------
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # bugbear
+    "UP",   # pyupgrade
+    "SIM",  # simplify
+    "RUF",  # ruff-specific
+]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["B011"]  # allow `assert False` in tests
+
+# ---------- mypy ----------
+# Strict mode is turned on in Sprint 14 (see plan.md §12).
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+no_implicit_optional = true
+disallow_untyped_defs = false  # tightened in Sprint 14
+
+# ---------- pytest ----------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+
+# ---------- coverage ----------
+# Threshold raised to 80% in Sprint 13 (see plan.md §12).
+[tool.coverage.run]
+source = ["src/marketminds"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+exclude_also = [
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
